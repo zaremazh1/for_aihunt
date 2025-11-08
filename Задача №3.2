@@ -1,0 +1,45 @@
+/Принять POST /api/v1/auth/register с телом запроса:
+{
+  "email": "...",
+  "username": "...",
+  "password": "...",
+  "confirmPassword": "..."
+}
+/Валидация входных данных
+/Проверка обязательных полей:
+/Все поля должны быть непустыми.
+/Проверка формата email:
+/Email должен быть валидным (RFC 5322).
+/Проверка длины и формата username:
+/3–30 символов, допустимы буквы, цифры, подчеркивания.
+/Проверка длины пароля:
+/Минимум 8 символов.
+/Проверка совпадения паролей:
+/password должен совпадать с confirmPassword.
+/Если любая из этих проверок не проходит → вернуть 400 Bad Request с соответствующим сообщением.
+
+/Проверка имени пользователя:
+/SELECT COUNT(*) FROM users WHERE username = :username
+/Проверка имейла:
+/SELECT COUNT(*) FROM users WHERE email = :email
+/Хеширование пароля
+/hashed_password = bcrypt.hash(password)
+/Формирование объекта пользователя:
+/{
+  "username": "...",
+  "email": "...",
+  "passwordHash": "...",
+  "createdAt": "..."
+}
+
+/SQL запрос:
+/INSERT INTO users (username, email, password_hash, created_at)
+VALUES (:username, :email, :passwordHash, NOW())
+
+/Успешный ответ:
+/{
+  "userId": "...",
+  "username": "...",
+  "email": "...",
+  "createdAt": "..."
+}
