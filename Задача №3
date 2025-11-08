@@ -1,0 +1,29 @@
+HTTP метод: POST
+
+URL: /api/v1/auth/register
+
+Входные параметры (Request Body)
+Параметр	Тип	Обязательный	Ограничения
+email	string		Валидный email, не более 255 символов
+username	string	3–30 символов, только буквы, цифры, подчеркивания
+password	string	Минимум 8 символов
+confirmPassword	string	Должен совпадать с password
+Выходные параметры при успешном ответе (HTTP 201 Created)
+Параметр	Тип	Обязательный	Описание
+userId	string	Уникальный идентификатор пользователя
+username string	Имя пользователя
+email	string	Email пользователя
+createdAt string	Дата и время регистрации (ISO 8601)
+
+Выходные параметры при ошибке (HTTP 400 / 409)
+Параметр	Тип	Обязательный	Описание
+errorCode	string	Код ошибки (например, USERNAME_EXISTS)
+message	string	Человекочитаемое описание ошибки
+field	string	Название поля, вызвавшего ошибку (если есть)
+Описание ошибок
+HTTP Код	Тип ошибки	Сообщение
+400	Клиентская ошибка	Passwords do not match
+400	Клиентская ошибка	Password must be at least 8 characters
+409	Конфликт данных	Username already exists
+409	Конфликт данных	Email already exists
+500	Серверная ошибка	Internal server error
